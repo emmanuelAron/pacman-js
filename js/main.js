@@ -1,6 +1,6 @@
 class Hero {
     constructor(){
-        this.width = 20;
+        this.width = 10;
         this.height = 10;
         this.positionX = 50;
         this.positionY = 0;
@@ -41,7 +41,7 @@ class Hero {
 
 class Monster {
     constructor(){
-        this.width = 20;
+        this.width = 10;
         this.height = 10;
         this.positionX = Math.floor(Math.random() * (100 - this.width + 1)); // random number between 0 and (100 - this.width)
         this.positionY = 100;
@@ -68,6 +68,10 @@ class Monster {
         this.positionY--;
         this.domElm.style.bottom = this.positionY + "vh"; 
     }
+    generateRandomSquare(){
+        this.positionY = Math.random()*100;
+        this.domElm.style.bottom = Math.random()*100+ "vh";
+    }
 }
 
 
@@ -84,14 +88,18 @@ setInterval(() => {
     monsters.push(newMonster);
 }, 3000);
 
-//levels.forEach((level,index)=>{
-    //level === "level1"; //we want to execute the level 1
-    //switch(level){
-       // case "level1":level1(monsters,undefined);break;
-        //case "level2":level2();break;
-        //case "level3":level3();break;
-  //  }
-//})
+
+function chooseLevel(myChoosenLevel){
+    levels.forEach((level,index)=>{
+        level === myChoosenLevel; //we want to execute the level 1
+        switch(level){
+           case "level1":level1(monsters,undefined);break;
+            case "level2":level2();break;
+            case "level3":level3();break;
+       }
+    })
+}
+
 
 
 // add event listeners
@@ -103,14 +111,6 @@ document.addEventListener("keydown", (e) => {
     }
 });
 
-//to delete
-function level1(monsters){
-    console.log("level 1...")
-    console.log('monsters',monsters)
-    // 1. move current Monster
-    monsterInstance.moveDown();
-}
-
 
 function level1(){
     // move monsters & detect collision
@@ -119,7 +119,8 @@ setInterval(() => {
 
         
         // 1. move current Monster
-        monsterInstance.moveDown();
+       // monsterInstance.moveDown();
+        monsterInstance.generateRandomSquare()
        // level1(monsters)
       
         
@@ -133,9 +134,9 @@ setInterval(() => {
         }
 
     });
-}, 30);
+}, 1000);
 }
-level1()
+chooseLevel("level1")
 
 
 
