@@ -9,6 +9,15 @@ body {
     height: 100vh;
     position: relative;
     overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.centered{
+    text-align: center;/* to center horizontally */
+    position: absolute;/* to center vertically */
+    top:50%;/* to center vertically */
+    transform: translateY(-50%, -50%);/* to center vertically */
 }
 
 #Hero {
@@ -25,3 +34,4 @@ body {
     text-align: center;
     background-color: rgb(166, 161, 171);
 }
+

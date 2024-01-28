@@ -89,24 +89,35 @@ class Monster {
 
 
 const hero = new Hero();
-const monsters = []; // will strore instances of the class Monster
+const monsters = []; // will store instances of the class Monster
 const levels = ["level1","level2","level3","level4"]; // will store the levels of the game.
-
+const speedMonsterGeneration = 3000 //time in milliseconds 
 
 // generate monsters 
 setInterval(() => {
     const newMonster = new Monster();
     monsters.push(newMonster);
-}, 3000);
+}, speedMonsterGeneration);
 
+function createCenteredDiv(){
+    const centeredDiv = document.createElement("div")
+    centeredDiv.innerHTML = 'Go there to win'
+    //We give a css class to our div
+    centeredDiv.setAttribute('class','centered')
+
+    //We add the newly created div element to board id.
+    const board = document.getElementById('board')
+    console.log(board)
+    board.appendChild(centeredDiv)
+}
 
 function chooseLevel(myChoosenLevel){
-    levels.forEach((level,index)=>{
-        level === myChoosenLevel; //we want to execute the level 1
+    levels.forEach((level)=>{
+        level === myChoosenLevel; //we want to execute the level defined in parameter's method.
         switch(level){
            case "level1":level1(monsters,undefined);break;
-            case "level2":level2();break;
-            case "level3":level3();break;
+            //case "level2":level2();break;
+            //case "level3":level3();break;
        }
     })
 }
@@ -131,8 +142,7 @@ function level1(){
     // move monsters & detect collision
 setInterval(() => {
     monsters.forEach((monsterInstance) => {
-
-        
+ 
         // 1. move current Monster
        // monsterInstance.moveDown();
         monsterInstance.generateRandomSquare()
@@ -151,6 +161,8 @@ setInterval(() => {
     });
 }, 2000);
 }
+//The call of my functions
+createCenteredDiv()
 chooseLevel("level1")
 
 
