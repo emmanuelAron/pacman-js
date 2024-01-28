@@ -35,6 +35,18 @@ class Hero {
             this.domElm.style.left = this.positionX + "vw";
         }
     }
+    moveUp(){
+        if(this.positionY + this.height < 100){
+            this.positionY++;
+            this.domElm.style.bottom = this.positionY + "vh";
+        }
+    }
+    moveDown(){
+        if(this.positionY > 0){
+            this.positionY--;
+            this.domElm.style.bottom = this.positionY + "vh";
+        }
+    }
 }
 
 
@@ -70,11 +82,10 @@ class Monster {
     }
     generateRandomSquare(){
         this.positionY = Math.random()*100;
-        this.domElm.style.bottom = Math.random()*100+ "vh";
+        //100 vh is the height of the screen, so we multiply it by random() between 0 and 1.
+        this.domElm.style.bottom = Math.random()*100+ "vh"; 
     }
 }
-
-
 
 
 const hero = new Hero();
@@ -108,6 +119,10 @@ document.addEventListener("keydown", (e) => {
         hero.moveLeft();
     } else if (e.code === 'ArrowRight') {
         hero.moveRight();
+    } else if(e.code === 'ArrowUp'){
+        hero.moveUp();
+    } else if(e.code === 'ArrowDown'){
+        hero.moveDown();
     }
 });
 
@@ -134,7 +149,7 @@ setInterval(() => {
         }
 
     });
-}, 1000);
+}, 2000);
 }
 chooseLevel("level1")
 
