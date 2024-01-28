@@ -9,15 +9,18 @@ body {
     height: 100vh;
     position: relative;
     overflow: hidden;
-    display: flex;
+    display: flex;/* to center vertically */
     justify-content: center;
     align-items: center;
 }
 .centered{
     text-align: center;/* to center horizontally */
-    position: absolute;/* to center vertically */
-    top:50%;/* to center vertically */
-    transform: translateY(-50%, -50%);/* to center vertically */
+   position: absolute;
+    top:50%; /* to center vertically */
+    border: 1px solid black;
+   padding: 20px;
+   background-color:darkolivegreen;
+   
 }
 
 #Hero {
