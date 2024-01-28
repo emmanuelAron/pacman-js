@@ -6,8 +6,23 @@ class Hero {
         this.positionY = 0;
         this.domElm = null;
 
+        this.createCenteredDiv();
+
         this.createDomElement();
     }
+
+    createCenteredDiv(){
+        this.centeredDiv = document.createElement("div")
+        this.centeredDiv.innerHTML = 'Go there to win'
+        //We give a css class to our div
+        this.centeredDiv.setAttribute('class','centered')
+    
+        //We add the newly created div element to board id.
+        const board = document.getElementById('board')
+        console.log(board)
+        board.appendChild(this.centeredDiv)
+    }
+
     createDomElement(){
         // step1: create the element
         this.domElm = document.createElement("div");
@@ -48,8 +63,6 @@ class Hero {
         }
     }
 }
-
-
 
 class Monster {
     constructor(){
@@ -99,7 +112,7 @@ setInterval(() => {
     monsters.push(newMonster);
 }, speedMonsterGeneration);
 
-function createCenteredDiv(){
+function createCenteredDiv2(){ //to delete?
     const centeredDiv = document.createElement("div")
     centeredDiv.innerHTML = 'Go there to win'
     //We give a css class to our div
@@ -137,6 +150,27 @@ document.addEventListener("keydown", (e) => {
     }
 });
 
+function collisionMonsterHero(hero , monsterInstance){
+    // 2. detect if there's a collision between the current Monster and the Hero
+    if (hero.positionX < monsterInstance.positionX + monsterInstance.width &&
+        hero.positionX + hero.width > monsterInstance.positionX &&
+        hero.positionY < monsterInstance.positionY + monsterInstance.height &&
+        hero.positionY + hero.height > monsterInstance.positionY) {
+        console.log("game over");
+        location.href = "gameover.html";
+    }
+}
+
+//The win function detects a collision between the hero and the centered green div.
+function win(hero , centeredDiv){
+    if (hero.positionX < centeredDiv.positionX + centeredDiv.width &&
+        hero.positionX + hero.width > centeredDiv.positionX &&
+        hero.positionY < centeredDiv.positionY + centeredDiv.height &&
+        hero.positionY + hero.height > centeredDiv.positionY) {
+        console.log("You won!!!");
+        location.href = "level2.html";//needs improvements for further levels
+    }
+}
 
 function level1(){
     // move monsters & detect collision
@@ -148,21 +182,14 @@ setInterval(() => {
         monsterInstance.generateRandomSquare()
        // level1(monsters)
       
-        
-        // 2. detect if there's a collision between the current Monster and the Hero
-        if (hero.positionX < monsterInstance.positionX + monsterInstance.width &&
-            hero.positionX + hero.width > monsterInstance.positionX &&
-            hero.positionY < monsterInstance.positionY + monsterInstance.height &&
-            hero.positionY + hero.height > monsterInstance.positionY) {
-            console.log("game over");
-            location.href = "gameover.html";
-        }
-
+        // // 2. detect if there's a collision between the current Monster and the Hero
+        collisionMonsterHero(hero , monsterInstance)
+        //Collision detection between the hero and the centered green div.
+      //  win(hero , centeredDiv)
     });
 }, 2000);
 }
 //The call of my functions
-createCenteredDiv()
 chooseLevel("level1")
 
 
