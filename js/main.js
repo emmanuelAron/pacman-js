@@ -46,10 +46,17 @@ class Hero {
         this.domElm.style.height = this.height + "vh"
         this.domElm.style.left = this.positionX + "vw";
         this.domElm.style.bottom = this.positionY + "vh";
-        
+  
         //step3: append to the dom: `parentElm.appendChild()`
         const boardElm = document.getElementById("board");
         boardElm.appendChild(this.domElm);
+
+         //Create the image inside the div.
+         let img = document.createElement("img");
+         img.src = './images/bunswe-get-real.gif'
+         img.width = '60';
+         img.height = '60';
+         this.domElm.appendChild(img)
     }
     moveLeft() {
         if (this.positionX > 0) {
@@ -166,20 +173,21 @@ function collisionMonsterHero(hero , monsterInstance){
 
 //The win function detects a collision between the hero and the centered green div.
 function win(hero){
+    console.log('inside the win function...')
     let centeredDiv = hero.centeredDiv //html element
     let x_goal_position = centeredDiv.left;
     let y_goal_position = centeredDiv.bottom;
    
-   // console.log('hero: ',hero)
-   // console.log('centeredDiv.style.left ',centeredDiv.style.left)
-    console.log('x_goal_position ',x_goal_position, 'y_goal_position: ',y_goal_position)
-    console.log('hero.positionX ',hero.positionX)
-    //console.log('centeredDiv.positionY ',centeredDiv.positionY)
+   let condition1 = hero.positionX < x_goal_position + centeredDiv.width
+   let condition2 = hero.positionX + hero.width > x_goal_position
+   let condition3 = hero.positionY < y_goal_position + centeredDiv.height
+   let condition4 = hero.positionY + hero.height > y_goal_position
 
-    if (hero.positionX < centeredDiv.positionX + centeredDiv.width &&
-        hero.positionX + hero.width > centeredDiv.positionX &&
-        hero.positionY < centeredDiv.positionY + centeredDiv.height &&
-        hero.positionY + hero.height > centeredDiv.positionY) {
+   //console.log('condition1 ',condition1, ' condition2 ',condition2,' condition3 ',condition3,' condition4 ',condition4)
+   // console.log('hero.positionY + hero.height ',hero.positionY + hero.height,' y_goal_position ',y_goal_position)
+
+    if (hero.positionX < x_goal_position + centeredDiv.width && hero.positionX + hero.width > x_goal_position &&
+        hero.positionY < y_goal_position + centeredDiv.height && hero.positionY + hero.height > y_goal_position) {
         console.log("You won!!!");
         location.href = "level2.html";//needs improvements for further levels
     }

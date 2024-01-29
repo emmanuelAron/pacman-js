@@ -24,8 +24,11 @@ body {
 }
 
 #Hero {
-    background-color: rgb(255, 0, 166);
+     background-color: rgb(255, 0, 166); 
+   /* background-image:url(./images/bunswe-get-real.gif); */
     position: absolute;
+    width:60;
+    height:60px;
 }
 
 .Monster {
