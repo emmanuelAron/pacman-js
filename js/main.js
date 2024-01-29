@@ -17,11 +17,23 @@ class Hero {
         this.centeredDiv.innerHTML = 'Go there to win'
         //We give a css class to our div
         this.centeredDiv.setAttribute('class','centered')
+        this.centeredDiv.style.width = this.width+ "vw" //just added
+        this.centeredDiv.style.height = this.height+ "vh"
+        this.centeredDiv.style.left = this.positionX+ "vw"
+        this.centeredDiv.style.bottom = this.positionY+ "vh"
+        //try:
+        this.centeredDiv.width = this.width
+        this.centeredDiv.height = this.height
+        this.centeredDiv.left = 50
+        this.centeredDiv.bottom = 50
+        
+        //console.log('width: ',this.centeredDiv.style.width)
     
         //We add the newly created div element to board id.
         const board = document.getElementById('board')
         //console.log(board)
         board.appendChild(this.centeredDiv)
+       console.log('board height ',board.height)
     }
 
     createDomElement(){
@@ -103,7 +115,7 @@ class Monster {
 
 
 const hero = new Hero();
-console.log('hero: ',hero)
+//console.log('hero: ',hero)
 const monsters = []; // will store instances of the class Monster
 const levels = ["level1","level2","level3","level4"]; // will store the levels of the game.
 const speedMonsterGeneration = 3000 //time in milliseconds 
@@ -147,12 +159,23 @@ function collisionMonsterHero(hero , monsterInstance){
         console.log("game over");
         location.href = "gameover.html";
     }
+
+   // this.centeredDiv.style.width
+
 }
 
 //The win function detects a collision between the hero and the centered green div.
-function win(hero /*, centeredDiv */){
-    console.log('hero.centeredDiv: ',hero.centeredDiv )
-    let centeredDiv = hero.centeredDiv
+function win(hero){
+    let centeredDiv = hero.centeredDiv //html element
+    let x_goal_position = centeredDiv.left;
+    let y_goal_position = centeredDiv.bottom;
+   
+   // console.log('hero: ',hero)
+   // console.log('centeredDiv.style.left ',centeredDiv.style.left)
+    console.log('x_goal_position ',x_goal_position, 'y_goal_position: ',y_goal_position)
+    console.log('hero.positionX ',hero.positionX)
+    //console.log('centeredDiv.positionY ',centeredDiv.positionY)
+
     if (hero.positionX < centeredDiv.positionX + centeredDiv.width &&
         hero.positionX + hero.width > centeredDiv.positionX &&
         hero.positionY < centeredDiv.positionY + centeredDiv.height &&
