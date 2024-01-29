@@ -52,12 +52,16 @@ class Hero {
         boardElm.appendChild(this.domElm);
 
          //Create the image inside the div.
-         let img = document.createElement("img");
-         img.src = './images/bunswe-get-real.gif'
+         this.createImage('bunswe-get-real.gif')
+    }
+    createImage(image){
+        let img = document.createElement("img");
+         img.src = './images/'+image
          img.width = '60';
          img.height = '60';
          this.domElm.appendChild(img)
     }
+
     moveLeft() {
         if (this.positionX > 0) {
             this.positionX--;
@@ -108,6 +112,16 @@ class Monster {
         //step3: append to the dom: `parentElm.appendChild()`
         const boardElm = document.getElementById("board");
         boardElm.appendChild(this.domElm);
+
+         //Create the image inside the div.
+         this.createImage('oacmn.gif')
+    }
+    createImage(image){
+        let img = document.createElement("img");
+         img.src = './images/'+image
+         img.width = '60';
+         img.height = '60';
+         this.domElm.appendChild(img)
     }
     moveDown(){
         this.positionY--;
