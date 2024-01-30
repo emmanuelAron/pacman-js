@@ -24,7 +24,11 @@ We create at least one wall (...)
 TODO : 
 later ->level 1 works globally but we need to adjust the exact position of the winning div/hero position.
 ->Replace the pacman and monster squares by images. 
+
+My images are taken from:
  https://tenor.com/fr/view/bunswe-get-real-gif-20454489
  https://tenor.com/fr/view/ghost-pac-man-gif-27519676
+ https://www.coliseugeek.com.br/fr/fond-decran-pac-man/
+ https://www.pexels.com/fr-fr/chercher/bleu/
 
 

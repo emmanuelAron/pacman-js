@@ -89,15 +89,34 @@ class Hero {
 }
 
 class Monster {
-    constructor(){
+    constructor(level){
         this.width = 10;
         this.height = 10;
-        this.positionX = Math.floor(Math.random() * (100 - this.width + 1)); // random number between 0 and (100 - this.width)
-        this.positionY = 100;
+        //this.positionX = 
+        this.positionX = null
+        this.positionY = null;
         this.domElm = null;
 
+        /* 
+        - We want to modify the behavior of the constructor relatively to the level.
+        For instance , at level 1 we need a random X and Y position , and not at level 2 
+        where we want an initial fixed position.
+        - Also we want differents starting X positions for the monsters at level 2 so 
+        i put positionX on parameter's constructor.
+    */
         this.createDomElement();
+         switch (this.level){
+            case 'level1':
+                this.positionX = Math.floor(Math.random() * (100 - this.width + 1)); // random number between 0 and (100 - this.width)
+                this.positionY = Math.floor(Math.random() * (100 - this.height + 1));
+              //  this.domElm.style.left = Math.random()*100 + "vw";
+              //  this.domElm.style.bottom = Math.random()*100+ "vh"; 
+                break;
+            case 'level2':
+                this.positionX = 40;
+        }
     }
+    
     createDomElement() {
         // step1: create the element
         this.domElm = document.createElement("div");
@@ -127,19 +146,23 @@ class Monster {
         this.positionY--;
         this.domElm.style.bottom = this.positionY + "vh"; 
     }
+    //used in the level 1
     generateRandomSquare(){
-        this.positionY = Math.random()*100;
+        //x random position in level 1 
         //100 vh is the height of the screen, so we multiply it by random() between 0 and 1.
+        this.domElm.style.left = Math.random()*100 + "vw";
         this.domElm.style.bottom = Math.random()*100+ "vh"; 
     }
 }
 
-
+//The start of my program:
 const hero = new Hero();
 //console.log('hero: ',hero)
 const monsters = []; // will store instances of the class Monster
 const levels = ["level1","level2","level3","level4"]; // will store the levels of the game.
 const speedMonsterGeneration = 3000 //time in milliseconds 
+let lev1 = false
+let lev2 = false
 
 // generate monsters 
 setInterval(() => {
@@ -151,8 +174,8 @@ function chooseLevel(myChoosenLevel){
     levels.forEach((level)=>{
         level === myChoosenLevel; //we want to execute the level defined in parameter's method.
         switch(level){
-           case "level1":level1(monsters,undefined);break;
-            //case "level2":level2();break;
+           case "level1":level1();break;
+           case "level2":level2();break;
             //case "level3":level3();break;
        }
     })
@@ -197,37 +220,57 @@ function win(hero){
    let condition3 = hero.positionY < y_goal_position + centeredDiv.height
    let condition4 = hero.positionY + hero.height > y_goal_position
 
-   //console.log('condition1 ',condition1, ' condition2 ',condition2,' condition3 ',condition3,' condition4 ',condition4)
-   // console.log('hero.positionY + hero.height ',hero.positionY + hero.height,' y_goal_position ',y_goal_position)
-
     if (hero.positionX < x_goal_position + centeredDiv.width && hero.positionX + hero.width > x_goal_position &&
         hero.positionY < y_goal_position + centeredDiv.height && hero.positionY + hero.height > y_goal_position) {
-        console.log("You won!!!");
-        location.href = "level2.html";//needs improvements for further levels
+        //We want to pause the execution a few seconds , so the user has the time to 
+        //appreciate his victory!
+        setTimeout(function () {
+             console.log("You won!!!"); 
+             location.href = "index.html";
+            //  if(lev1 === true){
+            //     location.href = "level2.html";
+            //     lev2 = true;
+            // }else if(lev2 === true){
+            //     location.href = "level3.html";
+            //     lev3 = true;
+            // }
+
+            }, 3000)
+        
+        
     }
 }
 
-function level1(){
+function level1() {
+    lev1 = true;
     // move monsters & detect collision
-setInterval(() => {
-    monsters.forEach((monsterInstance) => {
- 
-        // 1. move current Monster
-       // monsterInstance.moveDown();
-        monsterInstance.generateRandomSquare()
-       // level1(monsters)
+    setInterval(() => {
+        monsters.forEach((monsterInstance) => {
+            monsterInstance.generateRandomSquare()
+            //Detect if there's a collision between the current Monster and the Hero
+            collisionMonsterHero(hero, monsterInstance)
+            //Detect collision between the hero and the centered green div.
+            win(hero, this.centeredDiv)
+        });
+    }, 2000);
+    return lev1;
+}
+function level2() {
+    //lev2 = true;
+   
+    let monster1 = new Monster(level2)
+   // monster1.createMonster("S",monster1)
+           
+    console.log(monster1)
+           
       
-        // // 2. detect if there's a collision between the current Monster and the Hero
-        collisionMonsterHero(hero , monsterInstance)
-        //Collision detection between the hero and the centered green div.
-       // console.log('this.centeredDiv ',this.centeredDiv)
-       //centeredDiv is undefined!!
-        win(hero , this.centeredDiv)
-    });
-}, 2000);
 }
 //The call of my functions
-chooseLevel("level1")
+//chooseLevel("level1")
+//chooseLevel("level2")
+//lev1 = level1()
+//level2()
+level2()
 
 
 
