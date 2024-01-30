@@ -89,11 +89,11 @@ class Hero {
 }
 
 class Monster {
-    constructor(level){
+    constructor(level,posX){
         this.width = 10;
         this.height = 10;
-        //this.positionX = 
-        this.positionX = null
+        this.level = level; 
+        this.positionX = posX
         this.positionY = null;
         this.domElm = null;
 
@@ -105,7 +105,7 @@ class Monster {
         i put positionX on parameter's constructor.
     */
         this.createDomElement();
-         switch (this.level){
+         switch (level){
             case 'level1':
                 this.positionX = Math.floor(Math.random() * (100 - this.width + 1)); // random number between 0 and (100 - this.width)
                 this.positionY = Math.floor(Math.random() * (100 - this.height + 1));
@@ -113,7 +113,7 @@ class Monster {
               //  this.domElm.style.bottom = Math.random()*100+ "vh"; 
                 break;
             case 'level2':
-                this.positionX = 40;
+                this.positionX = posX;
         }
     }
     
@@ -165,10 +165,10 @@ let lev1 = false
 let lev2 = false
 
 // generate monsters 
-setInterval(() => {
-    const newMonster = new Monster();
-    monsters.push(newMonster);
-}, speedMonsterGeneration);
+// setInterval(() => {
+//     const newMonster = new Monster();
+//     monsters.push(newMonster);
+// }, speedMonsterGeneration);
 
 function chooseLevel(myChoosenLevel){
     levels.forEach((level)=>{
@@ -227,14 +227,6 @@ function win(hero){
         setTimeout(function () {
              console.log("You won!!!"); 
              location.href = "index.html";
-            //  if(lev1 === true){
-            //     location.href = "level2.html";
-            //     lev2 = true;
-            // }else if(lev2 === true){
-            //     location.href = "level3.html";
-            //     lev3 = true;
-            // }
-
             }, 3000)
         
         
@@ -242,6 +234,13 @@ function win(hero){
 }
 
 function level1() {
+
+    // generate monsters 
+setInterval(() => {
+    const newMonster = new Monster();
+    monsters.push(newMonster);
+}, speedMonsterGeneration);
+
     lev1 = true;
     // move monsters & detect collision
     setInterval(() => {
@@ -256,21 +255,14 @@ function level1() {
     return lev1;
 }
 function level2() {
-    //lev2 = true;
-   
-    let monster1 = new Monster(level2)
-   // monster1.createMonster("S",monster1)
-           
-    console.log(monster1)
-           
-      
+    let monster1 = new Monster(level2,50)
+    let monster2 = new Monster(level2,80)
+   // console.log(monster1)  
 }
 //The call of my functions
-//chooseLevel("level1")
-//chooseLevel("level2")
 //lev1 = level1()
-//level2()
 level2()
+//level1()
 
 
 
