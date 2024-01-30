@@ -17,18 +17,16 @@ class Hero {
         this.centeredDiv.innerHTML = 'Go there to win'
         //We give a css class to our div
         this.centeredDiv.setAttribute('class','centered')
-        this.centeredDiv.style.width = this.width+ "vw" //just added
+        this.centeredDiv.style.width = this.width+ "vw"
         this.centeredDiv.style.height = this.height+ "vh"
         this.centeredDiv.style.left = this.positionX+ "vw"
         this.centeredDiv.style.bottom = this.positionY+ "vh"
-        //try:
+        
         this.centeredDiv.width = this.width
         this.centeredDiv.height = this.height
         this.centeredDiv.left = 50
         this.centeredDiv.bottom = 50
         
-        //console.log('width: ',this.centeredDiv.style.width)
-    
         //We add the newly created div element to board id.
         const board = document.getElementById('board')
         //console.log(board)
@@ -89,21 +87,21 @@ class Hero {
 }
 
 class Monster {
-    constructor(level,posX){
-        this.width = 10;
-        this.height = 10;
-        this.level = level; 
-        this.positionX = posX
-        this.positionY = null;
-        this.domElm = null;
-
-        /* 
+      /* 
         - We want to modify the behavior of the constructor relatively to the level.
         For instance , at level 1 we need a random X and Y position , and not at level 2 
         where we want an initial fixed position.
         - Also we want differents starting X positions for the monsters at level 2 so 
         i put positionX on parameter's constructor.
     */
+    constructor(level,posX,posY){
+        this.width = 10;
+        this.height = 10;
+        this.level = level; 
+        this.positionX = posX
+        this.positionY = posY;
+        this.domElm = null;
+
         this.createDomElement();
          switch (level){
             case 'level1':
@@ -114,6 +112,8 @@ class Monster {
                 break;
             case 'level2':
                 this.positionX = posX;
+                this.positionY = posY;
+                break;
         }
     }
     
@@ -142,9 +142,30 @@ class Monster {
          img.height = '60';
          this.domElm.appendChild(img)
     }
+    
     moveDown(){
-        this.positionY--;
-        this.domElm.style.bottom = this.positionY + "vh"; 
+        if(this.positionY > 0){
+            this.positionY--;
+            this.domElm.style.bottom = this.positionY + "vh";
+        }
+    }
+    moveUp(){
+        if(this.positionY + this.height < 100){
+            this.positionY++;
+            this.domElm.style.bottom = this.positionY + "vh";
+        }
+    }
+    moveLeft() {
+        if (this.positionX > 0) {
+            this.positionX--;
+            this.domElm.style.left = this.positionX + "vw";
+        }
+    }
+    moveRight() {
+        if (this.positionX + this.width < 100) {
+            this.positionX++;
+            this.domElm.style.left = this.positionX + "vw";
+        }
     }
     //used in the level 1
     generateRandomSquare(){
@@ -163,12 +184,6 @@ const levels = ["level1","level2","level3","level4"]; // will store the levels o
 const speedMonsterGeneration = 3000 //time in milliseconds 
 let lev1 = false
 let lev2 = false
-
-// generate monsters 
-// setInterval(() => {
-//     const newMonster = new Monster();
-//     monsters.push(newMonster);
-// }, speedMonsterGeneration);
 
 function chooseLevel(myChoosenLevel){
     levels.forEach((level)=>{
@@ -203,9 +218,6 @@ function collisionMonsterHero(hero , monsterInstance){
         console.log("game over");
         location.href = "gameover.html";
     }
-
-   // this.centeredDiv.style.width
-
 }
 
 //The win function detects a collision between the hero and the centered green div.
@@ -228,8 +240,6 @@ function win(hero){
              console.log("You won!!!"); 
              location.href = "index.html";
             }, 3000)
-        
-        
     }
 }
 
@@ -255,9 +265,37 @@ setInterval(() => {
     return lev1;
 }
 function level2() {
-    let monster1 = new Monster(level2,50)
-    let monster2 = new Monster(level2,80)
-   // console.log(monster1)  
+    let y_monster1 = 50;
+    let monster1 = new Monster(level2,50,y_monster1)
+    let speed = 200 //Speed in ms
+    setInterval(()=>{
+        monster1.moveDown()
+    }, speed);
+   
+    console.log(monster1) 
+    let monster2 = new Monster(level2,80,50)
+    setInterval(()=>{
+        if(monster2.positionY === 0){
+            console.log('moving left now')
+            monster2.moveLeft()
+            if(monster2.positionX === 0){
+                setInterval(()=>{
+                    console.log('moving up now')
+                    monster2.moveUp();
+                },speed)
+                
+            }
+        } else {
+            console.log('moving right now')
+            monster2.moveRight()
+        }
+        if(monster2.positionX === 90){
+            console.log('moving down now')
+            monster2.moveDown()
+        } 
+    }, speed);
+    console.log(monster2) 
+    
 }
 //The call of my functions
 //lev1 = level1()
