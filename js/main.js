@@ -6,6 +6,7 @@ class Hero {
         this.positionY = 0;
         this.domElm = null;
         this.centeredDiv = null;
+        this.level = 'level1'
 
         this.createCenteredDiv();
 
@@ -182,19 +183,10 @@ const hero = new Hero();
 const monsters = []; // will store instances of the class Monster
 const levels = ["level1","level2","level3","level4"]; // will store the levels of the game.
 const speedMonsterGeneration = 3000 //time in milliseconds 
-let lev1 = false
+let lev1 = true
 let lev2 = false
 
-function chooseLevel(myChoosenLevel){
-    levels.forEach((level)=>{
-        level === myChoosenLevel; //we want to execute the level defined in parameter's method.
-        switch(level){
-           case "level1":level1();break;
-           case "level2":level2();break;
-            //case "level3":level3();break;
-       }
-    })
-}
+
 
 // add event listeners
 document.addEventListener("keydown", (e) => {
@@ -208,7 +200,9 @@ document.addEventListener("keydown", (e) => {
         hero.moveDown();
     }
 });
-
+/***************************************************************************************
+ *  Function declarations
+ ***************************************************************************************/
 function collisionMonsterHero(hero , monsterInstance){
     // 2. detect if there's a collision between the current Monster and the Hero
     if (hero.positionX < monsterInstance.positionX + monsterInstance.width &&
@@ -238,12 +232,34 @@ function win(hero){
         //appreciate his victory!
         setTimeout(function () {
              console.log("You won!!!"); 
+             
+              
+             lev1 = false;
+             console.log('lev1 after winning: ',lev1)
+             //location.href = "index.html";
+             //level2(hero)
+             hero.level = 'level2'//test...
              location.href = "index.html";
             }, 3000)
+        //level2()
     }
+   
+}
+
+function nextLevel(hero){
+    switch (hero.level) {
+        case 'level1':
+            level1(hero);
+          break;
+        case 'level2':
+          level2(hero);
+          break;
+      }
 }
 
 function level1() {
+    const level = document.getElementById('level')
+    level.innerHTML = 'Level 1 : Monsters appearing randomly and regularly'
 
     // generate monsters 
 setInterval(() => {
@@ -260,11 +276,16 @@ setInterval(() => {
             collisionMonsterHero(hero, monsterInstance)
             //Detect collision between the hero and the centered green div.
             win(hero, this.centeredDiv)
+            
         });
     }, 2000);
-    return lev1;
+  //  return lev1;
 }
 function level2() {
+    //Set the html h1 title
+    const level = document.getElementById('level')
+    level.innerHTML = 'Level 2 : Three moving monsters , no walls'
+
     let y_monster1 = 50;
     let monster1 = new Monster(level2,50,y_monster1)
     let speed = 200 //Speed in ms
@@ -274,33 +295,39 @@ function level2() {
    
     console.log(monster1) 
     let monster2 = new Monster(level2,80,50)
-    setInterval(()=>{
-        if(monster2.positionY === 0){
-            console.log('moving left now')
-            monster2.moveLeft()
-            if(monster2.positionX === 0){
-                setInterval(()=>{
-                    console.log('moving up now')
-                    monster2.moveUp();
-                },speed)
-                
+
+    let moveDirection = 'right';   // start by defining this moveDirection as right and then change it on every collision with the borders
+
+    setInterval(() => {
+        if (moveDirection === 'right') {
+            monster2.moveRight();
+            if (monster2.positionX === 90) {
+                moveDirection = 'down';
             }
-        } else {
-            console.log('moving right now')
-            monster2.moveRight()
+        } else if (moveDirection === 'down') {
+            monster2.moveDown();
+            if (monster2.positionY === 0) {
+                moveDirection = 'left';
+            }
+        } else if (moveDirection === 'left') {
+            monster2.moveLeft();
+            if (monster2.positionX === 0) {
+                moveDirection = 'up';
+            }
+        } else if (moveDirection === 'up') {
+            monster2.moveUp();
+            if (monster2.positionY === 50) {
+                moveDirection = 'right';
+            }
         }
-        if(monster2.positionX === 90){
-            console.log('moving down now')
-            monster2.moveDown()
-        } 
     }, speed);
-    console.log(monster2) 
-    
+     
 }
 //The call of my functions
-//lev1 = level1()
-level2()
-//level1()
+//level2()
+nextLevel(hero)
+
+
 
 
 

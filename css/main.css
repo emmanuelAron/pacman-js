@@ -7,8 +7,8 @@ body {
 
 
 #board {
-    background-color: rgb(137, 209, 235);
-    /*background-image: url("../images/pexels-deepu-b-iyer-40465.jpg"); */
+    /* background-color: rgb(137, 209, 235); */
+    background-image: url("../images/fond-mur.jpg");
     
     height: 100vh;
     position: relative;
@@ -47,7 +47,8 @@ body {
     text-align: center;
     background-color: rgb(166, 161, 171);
 }
-#level1{
+#level{
     background-color: darksalmon;
+    text-align: center;
 }
 
