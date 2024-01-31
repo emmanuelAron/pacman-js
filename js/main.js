@@ -1,9 +1,9 @@
 class Hero {
-    constructor(level){
+    constructor(level,positionX,positionY){
         this.width = 10;
         this.height = 10;
-        this.positionX = 50;
-        this.positionY = 0;
+        this.positionX = positionX;
+        this.positionY = positionY;
         this.domElm = null;
         this.centeredDiv = null;
         this.level = level
@@ -178,11 +178,11 @@ class Monster {
 }
 
 //The start of my program:
-const hero = new Hero('level1');
+const hero = new Hero('level1',50,0);
 //console.log('hero: ',hero)
-const monsters = []; // will store instances of the class Monster
+const monstersLvl1 = []; // will store instances of the class Monster for lvl1
 //const levels = ["level1","level2","level3","level4"]; // will store the levels of the game.
-const speedMonsterGeneration = 3000 //time in milliseconds 
+const frequencyMonsterGeneration = 3000 //time in milliseconds 
 //let lev1 = true
 //let lev2 = false
 
@@ -232,15 +232,17 @@ function win(hero){
    let condition3 = hero.positionY < y_goal_position + centeredDiv.height
    let condition4 = hero.positionY + hero.height > y_goal_position
 
-    if (hero.positionX < x_goal_position + centeredDiv.width && hero.positionX + hero.width > x_goal_position &&
-        hero.positionY < y_goal_position + centeredDiv.height && hero.positionY + hero.height > y_goal_position) {
-        //We want to pause the execution a few seconds , so the user has the time to 
-        //appreciate his victory!
-        console.log("Next level!"); 
+   console.log('hero.positionX',hero.positionX,'hero.positionY ',hero.positionY  )
+    // if(hero.positionX === (50-centeredDiv.width) && hero.positionY === (50-centeredDiv.height)){
+    //     console.log("Next level!"); 
+    //     hero.level = 'level2';
+    //     nextLevel(hero);
+    // }
 
+    if (condition1 && condition2 && condition3 && condition4) {
+        console.log("Next level!"); 
         hero.level = 'level2';
         nextLevel(hero);
- 
     }
 }
 
@@ -257,49 +259,63 @@ function nextLevel(hero) {
             break;
     }
 }
-function path(x_monster2,moveDirection,maxTop){
-    // let y_monster1 = 50;
-    // let monster1 = new Monster(level2,50,y_monster1)
-    // console.log(monster1) 
+// start by defining this moveDirection as right and then change it on every collision 
+//with the borders or with the maxTop parameter
+function path(x_monster,moveDirection,maxTop){
      
-    let monster2 = new Monster(level2,x_monster2,50)
+    let monster = new Monster(level2,x_monster,50)
     let speed = 200 //Speed in ms
-   
-   // let moveDirection = 'right';   // start by defining this moveDirection as right and then change it on every collision with the borders
-
+    
     setInterval(() => {
         if (moveDirection === 'right') {
-            monster2.moveRight();
-            if (monster2.positionX === 90) {
+            monster.moveRight();
+            if (monster.positionX === 90) {
                 moveDirection = 'down';
             }
         } else if (moveDirection === 'down') {
-            monster2.moveDown();
-            if (monster2.positionY === 0) {
+            monster.moveDown();
+            if (monster.positionY === 0) {
                 moveDirection = 'left';
             }
         } else if (moveDirection === 'left') {
-            monster2.moveLeft();
-            if (monster2.positionX === 0) {
+            monster.moveLeft();
+            if (monster.positionX === 0) {
                 moveDirection = 'up';
             }
         } else if (moveDirection === 'up') {
-            monster2.moveUp();
-            if (monster2.positionY === maxTop) {
+            monster.moveUp();
+            if (monster.positionY === maxTop) {
                 moveDirection = 'right';
             }
         }
     }, speed);
+    return monster
 }
 
 function level1() {
     //Set the html h1 title
     const level = document.getElementById('level')
-    level.innerHTML = 'Level 2 : Two moving monsters , no walls'
+    level.innerHTML = 'Level 1 : Four moving monsters , no walls'
 
-    path(80,'right',65);//x coordinate: 80 = 80% of the size screen
-    path(40,'down',80)
-    path(15,'right',40)
+   // let monster1 = new Monster(1,65,this.positionY)
+   // let monster2 = new Monster(1,80,this.positionY)
+   // let monster3 = new Monster(1,65,this.positionY)
+
+    let monster1 = path(80,'right',65);//x coordinate: 65 = 65% of the size screen
+    let monster2 = path(40,'down',80)//80 is the max top
+    let monster3 = path(20,'up',70)
+    let monster4 = path(15,'right',40)
+
+    monstersLvl1.push(monster1)
+    monstersLvl1.push(monster2)
+    monstersLvl1.push(monster3)
+    monstersLvl1.push(monster4)
+
+    console.log(monstersLvl1)
+
+    //The win condition
+    win(hero)
+
 }
 
 function level2(hero) {
@@ -311,26 +327,16 @@ function level2(hero) {
     setInterval(() => {
         const newMonster = new Monster('level1', this.positionX, this.positionY);
         monsters.push(newMonster);
-    }, speedMonsterGeneration);
+    }, frequencyMonsterGeneration);
 
+   //monster and hero detection...
 
-    // move monsters & detect collision
-    setInterval(() => {
-        monsters.forEach((monsterInstance) => {
-            monsterInstance.generateRandomSquare()
-            //Detect if there's a collision between the current Monster and the Hero
-            collisionMonsterHero(hero, monsterInstance)
-            //Detect collision between the hero and the centered green div.
-            win(hero, this.centeredDiv)
-            
-        });
-    }, 2000);
+   //win
+
 }
 
-
-
-nextLevel(hero); // Start the game
-
+//nextLevel(hero); // Start the game
+level2()
 
 
 
