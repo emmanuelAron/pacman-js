@@ -204,11 +204,19 @@ document.addEventListener("keydown", (e) => {
  *  Function declarations
  ***************************************************************************************/
 function collisionMonsterHero(hero , monsterInstance){
+    let condition1 = hero.positionX < monsterInstance.positionX + monsterInstance.width
+    let condition2 = hero.positionX + hero.width > monsterInstance.positionX
+    let condition3 = hero.positionY < monsterInstance.positionY + monsterInstance.height
+    let condition4 = hero.positionY + hero.height > monsterInstance.positionY
+
+    let cond1Left = monsterInstance.positionX + monsterInstance.width
+
+    console.log('hero.positionX', hero.positionX, 'monsterInstance.positionX',monsterInstance.positionX,'monsterInstance.width',monsterInstance.width)
+    //console.log('hero.positionX', hero.positionX, 'monsterInstance.positionX + monsterInstance.width',cond1Left)
+    //console.log('cond1 ',condition1, ' cond2 ',condition2,' cond3 ',condition3,' cond4 ',condition4)
+
     // 2. detect if there's a collision between the current Monster and the Hero
-    if (hero.positionX < monsterInstance.positionX + monsterInstance.width &&
-        hero.positionX + hero.width > monsterInstance.positionX &&
-        hero.positionY < monsterInstance.positionY + monsterInstance.height &&
-        hero.positionY + hero.height > monsterInstance.positionY) {
+    if (condition1 && condition2 && condition3 && condition4) {
         console.log("game over");
         location.href = "gameover.html";
     }
@@ -216,7 +224,7 @@ function collisionMonsterHero(hero , monsterInstance){
 
 //The win function detects a collision between the hero and the centered green div.
 function win(hero){
-    console.log('inside the win function...')
+    //console.log('inside the win function...')
     let centeredDiv = hero.centeredDiv //html element
     let x_goal_position = centeredDiv.left;
     let y_goal_position = centeredDiv.bottom;
@@ -263,7 +271,7 @@ function level1() {
 
     // generate monsters 
 setInterval(() => {
-    const newMonster = new Monster();
+    const newMonster = new Monster('level1',this.positionX,this.positionY);
     monsters.push(newMonster);
 }, speedMonsterGeneration);
 
