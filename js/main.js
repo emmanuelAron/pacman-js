@@ -1,12 +1,12 @@
 class Hero {
-    constructor(){
+    constructor(level){
         this.width = 10;
         this.height = 10;
         this.positionX = 50;
         this.positionY = 0;
         this.domElm = null;
         this.centeredDiv = null;
-        this.level = 'level1'
+        this.level = level
 
         this.createCenteredDiv();
 
@@ -32,7 +32,7 @@ class Hero {
         const board = document.getElementById('board')
         //console.log(board)
         board.appendChild(this.centeredDiv)
-       console.log('board height ',board.height)
+       
     }
 
     createDomElement(){
@@ -178,13 +178,13 @@ class Monster {
 }
 
 //The start of my program:
-const hero = new Hero();
+const hero = new Hero('level1');
 //console.log('hero: ',hero)
 const monsters = []; // will store instances of the class Monster
-const levels = ["level1","level2","level3","level4"]; // will store the levels of the game.
+//const levels = ["level1","level2","level3","level4"]; // will store the levels of the game.
 const speedMonsterGeneration = 3000 //time in milliseconds 
-let lev1 = true
-let lev2 = false
+//let lev1 = true
+//let lev2 = false
 
 
 
@@ -211,8 +211,6 @@ function collisionMonsterHero(hero , monsterInstance){
 
     let cond1Left = monsterInstance.positionX + monsterInstance.width
 
-    console.log('hero.positionX', hero.positionX, 'monsterInstance.positionX',monsterInstance.positionX,'monsterInstance.width',monsterInstance.width)
-    //console.log('hero.positionX', hero.positionX, 'monsterInstance.positionX + monsterInstance.width',cond1Left)
     //console.log('cond1 ',condition1, ' cond2 ',condition2,' cond3 ',condition3,' cond4 ',condition4)
 
     // 2. detect if there's a collision between the current Monster and the Hero
@@ -238,73 +236,36 @@ function win(hero){
         hero.positionY < y_goal_position + centeredDiv.height && hero.positionY + hero.height > y_goal_position) {
         //We want to pause the execution a few seconds , so the user has the time to 
         //appreciate his victory!
-        setTimeout(function () {
-             console.log("You won!!!"); 
-             
-              
-             lev1 = false;
-             console.log('lev1 after winning: ',lev1)
-             //location.href = "index.html";
-             //level2(hero)
-             hero.level = 'level2'//test...
-             location.href = "index.html";
-            }, 3000)
-        //level2()
+        console.log("Next level!"); 
+
+        hero.level = 'level2';
+        nextLevel(hero);
+ 
     }
-   
 }
 
-function nextLevel(hero){
+function nextLevel(hero) {
+    console.log('hero.level just before the switch: ', hero.level)
     switch (hero.level) {
         case 'level1':
+            console.log("stating level 1...");
             level1(hero);
-          break;
+            break;
         case 'level2':
-          level2(hero);
-          break;
-      }
+            console.log("stating level 2...");
+            level2(hero);
+            break;
+    }
 }
-
-function level1() {
-    const level = document.getElementById('level')
-    level.innerHTML = 'Level 1 : Monsters appearing randomly and regularly'
-
-    // generate monsters 
-setInterval(() => {
-    const newMonster = new Monster('level1',this.positionX,this.positionY);
-    monsters.push(newMonster);
-}, speedMonsterGeneration);
-
-    lev1 = true;
-    // move monsters & detect collision
-    setInterval(() => {
-        monsters.forEach((monsterInstance) => {
-            monsterInstance.generateRandomSquare()
-            //Detect if there's a collision between the current Monster and the Hero
-            collisionMonsterHero(hero, monsterInstance)
-            //Detect collision between the hero and the centered green div.
-            win(hero, this.centeredDiv)
-            
-        });
-    }, 2000);
-  //  return lev1;
-}
-function level2() {
-    //Set the html h1 title
-    const level = document.getElementById('level')
-    level.innerHTML = 'Level 2 : Three moving monsters , no walls'
-
-    let y_monster1 = 50;
-    let monster1 = new Monster(level2,50,y_monster1)
+function path(x_monster2,moveDirection,maxTop){
+    // let y_monster1 = 50;
+    // let monster1 = new Monster(level2,50,y_monster1)
+    // console.log(monster1) 
+     
+    let monster2 = new Monster(level2,x_monster2,50)
     let speed = 200 //Speed in ms
-    setInterval(()=>{
-        monster1.moveDown()
-    }, speed);
    
-    console.log(monster1) 
-    let monster2 = new Monster(level2,80,50)
-
-    let moveDirection = 'right';   // start by defining this moveDirection as right and then change it on every collision with the borders
+   // let moveDirection = 'right';   // start by defining this moveDirection as right and then change it on every collision with the borders
 
     setInterval(() => {
         if (moveDirection === 'right') {
@@ -324,16 +285,52 @@ function level2() {
             }
         } else if (moveDirection === 'up') {
             monster2.moveUp();
-            if (monster2.positionY === 50) {
+            if (monster2.positionY === maxTop) {
                 moveDirection = 'right';
             }
         }
     }, speed);
-     
 }
-//The call of my functions
-//level2()
-nextLevel(hero)
+
+function level1() {
+    //Set the html h1 title
+    const level = document.getElementById('level')
+    level.innerHTML = 'Level 2 : Two moving monsters , no walls'
+
+    path(80,'right',65);//x coordinate: 80 = 80% of the size screen
+    path(40,'down',80)
+    path(15,'right',40)
+}
+
+function level2(hero) {
+
+    const level = document.getElementById('level')
+    level.innerHTML = 'Level 1 : Monsters appearing randomly and regularly'
+
+    // generate monsters 
+    setInterval(() => {
+        const newMonster = new Monster('level1', this.positionX, this.positionY);
+        monsters.push(newMonster);
+    }, speedMonsterGeneration);
+
+
+    // move monsters & detect collision
+    setInterval(() => {
+        monsters.forEach((monsterInstance) => {
+            monsterInstance.generateRandomSquare()
+            //Detect if there's a collision between the current Monster and the Hero
+            collisionMonsterHero(hero, monsterInstance)
+            //Detect collision between the hero and the centered green div.
+            win(hero, this.centeredDiv)
+            
+        });
+    }, 2000);
+}
+
+
+
+nextLevel(hero); // Start the game
+
 
 
 
