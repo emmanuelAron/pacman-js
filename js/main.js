@@ -66,24 +66,33 @@ class Hero {
         if (this.positionX > 0) {
             this.positionX--;
             this.domElm.style.left = this.positionX + "vw";
+            //image rotation
+            let heroImage = document.querySelector('#board img');
+           heroImage.style.transform = "rotate(180deg)"
         }
     }
     moveRight() {
         if (this.positionX + this.width < 100) {
             this.positionX++;
             this.domElm.style.left = this.positionX + "vw";
+            let heroImage = document.querySelector('#board img');
+            heroImage.style.transform = "rotate(0deg)"
         }
     }
     moveUp(){
         if(this.positionY + this.height < 100){
             this.positionY++;
             this.domElm.style.bottom = this.positionY + "vh";
+            let heroImage = document.querySelector('#board img');
+            heroImage.style.transform = "rotate(-90deg)"
         }
     }
     moveDown(){
         if(this.positionY > 0){
             this.positionY--;
             this.domElm.style.bottom = this.positionY + "vh";
+            let heroImage = document.querySelector('#board img');
+            heroImage.style.transform = "rotate(90deg)"
         }
     }
 }
