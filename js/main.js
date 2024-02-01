@@ -231,7 +231,7 @@ function win(hero) {
     if (hero.positionX < x_goal_position + centeredDiv.width && hero.positionX + hero.width > x_goal_position &&
         hero.positionY < y_goal_position + centeredDiv.height && hero.positionY + hero.height > y_goal_position) {
         console.log("You won!");
-        hero.level = 'level2'
+       // hero.level = 'level2'
         return true;
     }
     return false
