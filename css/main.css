@@ -3,11 +3,8 @@ body {
     padding: 0;
 }
 
-
 #board {
-    /* background-color: rgb(137, 209, 235); */
     background-image: url("../images/fond-mur.jpg");
-    
     height: 100vh;
     position: relative;
     overflow: hidden;
@@ -21,33 +18,26 @@ body {
     /*top:12%;  to center vertically , relatively to the screen */
     border: 1px solid black;
    padding: 20px;
-   /*background-color:darkolivegreen; */
    background: linear-gradient(darkolivegreen, pink);
    font-size: 25px;
    font-family: cursive;
-   
 }
 
 #Hero {
-    /* background-color: rgb(255, 0, 166); */
      background-color:rgb(137, 209, 235);
      border-radius: 100%;
     position: absolute;
-    /* width:60px;
-    max-width: 60px;
-    height:60px;
-    max-height:60px; */
-    
+    border: 1px solid black; 
+    width: 30px;
+    height: 30px;
+    max-width:30px;
+    max-height: 30px;
 }
 
 .Monster {
-    /* background-color: rgb(90, 19, 156); */
+    border: 1px solid black;
     background-color:rgb(137, 209, 235);
     border-radius:20%;
-    /* width:60px;
-    max-width: 60px;
-    height:60px;
-    max-height:60px; */
     position: absolute;
 }
 
@@ -57,7 +47,6 @@ body {
 }
 #level{
     background-color: darksalmon;
-   /* text-align: center; */
     height: 40px;
     display: flex;
 	flex-direction: row;
@@ -66,14 +55,12 @@ body {
 }
 #level2{
     background-color: cadetblue;
-   /* text-align: center; */
     height: 40px;
     display: flex;
 	flex-direction: row;
     align-items: center;/* vertically center the items */
     justify-content: center;/* horizontally center the items */
-    /* We want to initially hide the level 2 div  */
-    display: none;
+    display: none;/* We want to initially hide the level 2 div  */
     visibility: hidden;
 }
 
