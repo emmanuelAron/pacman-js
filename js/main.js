@@ -1,12 +1,12 @@
 class Hero {
-    constructor(){
+    constructor(level,positionX,positionY){
         this.width = 10;
         this.height = 10;
-        this.positionX = 50;
-        this.positionY = 0;
+        this.positionX = positionX;
+        this.positionY = positionY;
         this.domElm = null;
         this.centeredDiv = null;
-        this.level = 'level1'
+        this.level = level
 
         this.createCenteredDiv();
 
@@ -32,7 +32,7 @@ class Hero {
         const board = document.getElementById('board')
         //console.log(board)
         board.appendChild(this.centeredDiv)
-       console.log('board height ',board.height)
+       
     }
 
     createDomElement(){
@@ -178,13 +178,13 @@ class Monster {
 }
 
 //The start of my program:
-const hero = new Hero();
+const hero = new Hero('level1',50,0);
 //console.log('hero: ',hero)
-const monsters = []; // will store instances of the class Monster
-const levels = ["level1","level2","level3","level4"]; // will store the levels of the game.
-const speedMonsterGeneration = 3000 //time in milliseconds 
-let lev1 = true
-let lev2 = false
+const monstersLvl1 = []; // will store instances of the class Monster for lvl1
+//const levels = ["level1","level2","level3","level4"]; // will store the levels of the game.
+const frequencyMonsterGeneration = 3000 //time in milliseconds 
+//let lev1 = true
+//let lev2 = false
 
 
 
@@ -204,11 +204,17 @@ document.addEventListener("keydown", (e) => {
  *  Function declarations
  ***************************************************************************************/
 function collisionMonsterHero(hero , monsterInstance){
+    let condition1 = hero.positionX < monsterInstance.positionX + monsterInstance.width
+    let condition2 = hero.positionX + hero.width > monsterInstance.positionX
+    let condition3 = hero.positionY < monsterInstance.positionY + monsterInstance.height
+    let condition4 = hero.positionY + hero.height > monsterInstance.positionY
+
+    let cond1Left = monsterInstance.positionX + monsterInstance.width
+
+    //console.log('cond1 ',condition1, ' cond2 ',condition2,' cond3 ',condition3,' cond4 ',condition4)
+
     // 2. detect if there's a collision between the current Monster and the Hero
-    if (hero.positionX < monsterInstance.positionX + monsterInstance.width &&
-        hero.positionX + hero.width > monsterInstance.positionX &&
-        hero.positionY < monsterInstance.positionY + monsterInstance.height &&
-        hero.positionY + hero.height > monsterInstance.positionY) {
+    if (condition1 && condition2 && condition3 && condition4) {
         console.log("game over");
         location.href = "gameover.html";
     }
@@ -216,7 +222,7 @@ function collisionMonsterHero(hero , monsterInstance){
 
 //The win function detects a collision between the hero and the centered green div.
 function win(hero){
-    console.log('inside the win function...')
+    //console.log('inside the win function...')
     let centeredDiv = hero.centeredDiv //html element
     let x_goal_position = centeredDiv.left;
     let y_goal_position = centeredDiv.bottom;
@@ -225,6 +231,7 @@ function win(hero){
    let condition2 = hero.positionX + hero.width > x_goal_position
    let condition3 = hero.positionY < y_goal_position + centeredDiv.height
    let condition4 = hero.positionY + hero.height > y_goal_position
+
 
     if (hero.positionX < x_goal_position + centeredDiv.width && hero.positionX + hero.width > x_goal_position &&
         hero.positionY < y_goal_position + centeredDiv.height && hero.positionY + hero.height > y_goal_position) {
@@ -242,14 +249,18 @@ function win(hero){
         return true;
     }
    return false
+
 }
 
-function nextLevel(hero){
+function nextLevel(hero) {
+    console.log('hero.level just before the switch: ', hero.level)
     switch (hero.level) {
         case 'level1':
+            console.log("stating level 1...");
             level1(hero);
-          break;
+            break;
         case 'level2':
+
           level2(hero);
           break;
       }
@@ -282,6 +293,7 @@ function level1() {
         });
     }, 2000);
 }
+
 
 // start by defining this moveDirection as right and then change it on every collision 
 //with the borders or with the maxTop parameter
@@ -317,6 +329,7 @@ function path(x_monster,moveDirection,maxTop){
 }
 
 
+
 function level2() {
      //Set the html h1 title
      const level = document.getElementById('level')
@@ -346,6 +359,7 @@ function level2() {
 //level1()
 level2()
 //nextLevel(hero)
+
 
 
 
