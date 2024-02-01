@@ -182,6 +182,7 @@ const hero = new Hero('level1',50,10);
 //console.log('hero: ',hero)
 const monstersLvl1 = []; // will store instances of the class Monster for lvl1
 const monsters = []
+let pathIdInterval
 //const levels = ["level1","level2","level3","level4"]; // will store the levels of the game.
 const frequencyMonsterGeneration = 3000 //time in milliseconds 
 //let lev1 = true
@@ -292,7 +293,7 @@ function path(x_monster,moveDirection,maxTop){
     let monster = new Monster(level2,x_monster,50)
     let speed = 200 //Speed in ms
     
-    setInterval(() => {
+    pathIdInterval = setInterval(() => {
         if (moveDirection === 'right') {
             monster.moveRight();
             if (monster.positionX === 90) {
@@ -323,7 +324,7 @@ function path(x_monster,moveDirection,maxTop){
 function level2() {
      //Set the html h1 title
      const level = document.getElementById('level')
-     level.innerHTML = 'Level 1 : Four moving monsters , no walls'
+     level.innerHTML = 'Level 2 : Four moving monsters , no walls'
  
     // let monster1 = new Monster(1,65,this.positionY)
     // let monster2 = new Monster(1,80,this.positionY)
@@ -339,15 +340,21 @@ function level2() {
      monsters.push(monster3)
      monsters.push(monster4)
  
-     console.log(monsters)
+     console.log('My monsters in level 2 ',monsters)
  
      //The win condition
-     win(hero)
+     let isWin = win(hero)
+     if (isWin === true) {
+        console.log("Level 2 is won here")
+        clearInterval(intervalId_generate)
+       // clearInterval(intervalId_move_detect)
+        clearInterval( pathIdInterval)
+    }
      
 }
 //The call of my functions
-level1()
-//level2()
+//level1()
+level2()
 //nextLevel(hero)
 
 
