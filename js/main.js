@@ -58,6 +58,7 @@ class Hero {
          img.src = './images/'+image
          img.width = '60';
          img.height = '60';
+         img.style.borderRadius = '100px';
          this.domElm.appendChild(img)
     }
 
