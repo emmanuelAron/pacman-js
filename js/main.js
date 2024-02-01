@@ -1,12 +1,17 @@
 class Hero {
     constructor(level,positionX,positionY){
         this.width = 10;
-        this.height = 10;
+        this.height = 7;
         this.positionX = positionX;
         this.positionY = positionY;
         this.domElm = null;
         this.centeredDiv = null;
         this.level = level
+
+        this.centerdDivX = 4
+        this.centerdDivY = 4
+        this.centerdDivWidth = 10
+        this.centerdDivHeight = 10
 
         this.createCenteredDiv();
 
@@ -15,18 +20,18 @@ class Hero {
 
     createCenteredDiv(){
         this.centeredDiv = document.createElement("div")
-        this.centeredDiv.innerHTML = 'Go there to win !'
+        this.centeredDiv.innerHTML = 'Pacman, go there to win !'
         //We give a css class to our div
         this.centeredDiv.setAttribute('class','centered')
-        this.centeredDiv.style.width = this.width+ "vw"
-        this.centeredDiv.style.height = this.height+ "vh"
-        this.centeredDiv.style.left = this.positionX+ "vw"
-        this.centeredDiv.style.bottom = this.positionY+ "vh"
+        this.centeredDiv.style.width ="10vw"
+        this.centeredDiv.style.height = "10vh"
+        this.centeredDiv.style.left = "4vw"
+        this.centeredDiv.style.bottom =  "4vh"
         
-        this.centeredDiv.width = this.width
-        this.centeredDiv.height = this.height
-        this.centeredDiv.left = 50
-        this.centeredDiv.bottom = 50
+        // this.centeredDiv.width = this.width
+        // this.centeredDiv.height = this.height
+        // this.centeredDiv.left = 50
+        // this.centeredDiv.bottom = 50
         
         //We add the newly created div element to board id.
         const board = document.getElementById('board')
@@ -58,7 +63,7 @@ class Hero {
          img.src = './images/'+image
          img.width = '60';
          img.height = '60';
-         img.style.borderRadius = '100px';
+         img.style.borderRadius = '100%';
          this.domElm.appendChild(img)
     }
 
@@ -185,8 +190,8 @@ class Monster {
     generateRandomSquare(){
         //x random position in level 1 
         //100 vh is the height of the screen, so we multiply it by random() between 0 and 1.
-        this.domElm.style.left = Math.random()*100 + "vw";
-        this.domElm.style.bottom = Math.random()*100+ "vh"; 
+        this.domElm.style.left = Math.floor(Math.random()*100) + "vw";
+        this.domElm.style.bottom = Math.floor(Math.random()*100)+ "vh"; 
     }
 }
 
@@ -197,7 +202,7 @@ const monsters = []
 let pathIdInterval
 const frequencyMonsterGeneration = 3000 //time in milliseconds 
 
-// add event listeners
+// add event keyboard listener
 document.addEventListener("keydown", (e) => {
     if (e.code === 'ArrowLeft') {
         hero.moveLeft();
@@ -209,44 +214,48 @@ document.addEventListener("keydown", (e) => {
         hero.moveDown();
     }
 });
+
 /***************************************************************************************
  *  Function declarations
  ***************************************************************************************/
-function collisionMonsterHero(hero , monsterInstance){
+function collisionMonsterHero(monsterInstance){
     let condition1 = hero.positionX < monsterInstance.positionX + monsterInstance.width
     let condition2 = hero.positionX + hero.width > monsterInstance.positionX
     let condition3 = hero.positionY < monsterInstance.positionY + monsterInstance.height
     let condition4 = hero.positionY + hero.height > monsterInstance.positionY
 
-    let cond1Left = monsterInstance.positionX + monsterInstance.width
+    //let cond1Left = monsterInstance.positionX + monsterInstance.width
 
     //console.log('cond1 ',condition1, ' cond2 ',condition2,' cond3 ',condition3,' cond4 ',condition4)
 
     // 2. detect if there's a collision between the current Monster and the Hero
     if (condition1 && condition2 && condition3 && condition4) {
         console.log("game over");
-        location.href = "gameover.html";
+        // location.href = "gameover.html";
     }
 }
 
 //The win function detects a collision between the hero and the centered green div.
 function win(hero) {
-    let centeredDiv = hero.centeredDiv //html element
-    let x_goal_position = centeredDiv.left;
-    let y_goal_position = centeredDiv.bottom;
+    console.log("calling win function")
+    console.log(hero)
+    // let centeredDiv = hero.centeredDiv //html element
+    // let x_goal_position = centeredDiv.left;
+    // let y_goal_position = centeredDiv.bottom;
 
-    let condition1 = hero.positionX < x_goal_position + centeredDiv.width
-    let condition2 = hero.positionX + hero.width > x_goal_position
-    let condition3 = hero.positionY < y_goal_position + centeredDiv.height
-    let condition4 = hero.positionY + hero.height > y_goal_position
+    // let condition1 = hero.positionX < x_goal_position + centeredDiv.width
+    // let condition2 = hero.positionX + hero.width > x_goal_position
+    // let condition3 = hero.positionY < y_goal_position + centeredDiv.height
+    // let condition4 = hero.positionY + hero.height > y_goal_position
 
-    if (hero.positionX < x_goal_position + centeredDiv.width && hero.positionX + hero.width > x_goal_position &&
-        hero.positionY < y_goal_position + centeredDiv.height && hero.positionY + hero.height > y_goal_position) {
+    if (hero.positionX < hero.centerdDivX + hero.centerdDivWidth && 
+        hero.positionX + hero.width > hero.centerdDivX &&
+        hero.positionY < hero.centerdDivY + hero.centerdDivHeight && 
+        hero.positionY + hero.height > hero.centerdDivY) {
         console.log("You won!");
        // hero.level = 'level2'
         return true;
     }
-    return false
 }
 
 function nextLevel(hero) {
@@ -264,6 +273,7 @@ function nextLevel(hero) {
 }
 
 function level1() {
+   // return new Promise((resolve, reject) => {
     const level = document.getElementById('level')
     level.innerHTML = 'Level 1 : Monsters appearing randomly and regularly'
 
@@ -271,16 +281,16 @@ function level1() {
     const intervalId_generate = setInterval(() => {
         const newMonster = new Monster();
         monsters.push(newMonster);
+        newMonster.generateRandomSquare()
     }, 3000);
 
     // move monsters & detect collision
     const intervalId_move_detect = setInterval(() => {
         monsters.forEach((monsterInstance) => {
-            monsterInstance.generateRandomSquare()
             //Detect if there's a collision between the current Monster and the Hero
             collisionMonsterHero(hero, monsterInstance)
             //Detect collision between the hero and the centered green div.
-            let isWin = win(hero, this.centeredDiv)
+            let isWin = win(hero)
             if (isWin === true) {
                 console.log("Level 1 is won here")
                 //make the hidden level2 link appear
@@ -289,7 +299,9 @@ function level1() {
                 clearInterval(intervalId_move_detect)
             }
         });
-    }, 2000);
+    }, 1000);
+   // resolve('End of level 1')
+   // });
 }
 function setVisibleLevel2(){
     //make the div visible
@@ -342,6 +354,11 @@ function path(x_monster,moveDirection,maxTop){
 }
 
 function level2() {
+
+    //Make sure that all the precedents listeners are stopped before starting the level2 execution.
+    //clearInterval(intervalId_generate)
+    //clearInterval(intervalId_move_detect) 
+
      //Set the html h1 title
      const level = document.getElementById('level')
      level.innerHTML = 'Level 2 : Four moving monsters , no walls'
@@ -370,6 +387,7 @@ function level2() {
 //The call of my functions
 //level1()
 level1()
+
 //nextLevel(hero)
 
 
