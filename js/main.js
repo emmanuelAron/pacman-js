@@ -15,7 +15,7 @@ class Hero {
 
     createCenteredDiv(){
         this.centeredDiv = document.createElement("div")
-        this.centeredDiv.innerHTML = 'Go there to win'
+        this.centeredDiv.innerHTML = 'Go there to win !'
         //We give a css class to our div
         this.centeredDiv.setAttribute('class','centered')
         this.centeredDiv.style.width = this.width+ "vw"
@@ -66,7 +66,7 @@ class Hero {
         if (this.positionX > 0) {
             this.positionX--;
             this.domElm.style.left = this.positionX + "vw";
-            //image rotation
+            //image rotation left
             let heroImage = document.querySelector('#board img');
            heroImage.style.transform = "rotate(180deg)"
         }
@@ -75,6 +75,7 @@ class Hero {
         if (this.positionX + this.width < 100) {
             this.positionX++;
             this.domElm.style.left = this.positionX + "vw";
+            //image rotation right
             let heroImage = document.querySelector('#board img');
             heroImage.style.transform = "rotate(0deg)"
         }
@@ -83,6 +84,7 @@ class Hero {
         if(this.positionY + this.height < 100){
             this.positionY++;
             this.domElm.style.bottom = this.positionY + "vh";
+            //image rotation up
             let heroImage = document.querySelector('#board img');
             heroImage.style.transform = "rotate(-90deg)"
         }
@@ -91,6 +93,7 @@ class Hero {
         if(this.positionY > 0){
             this.positionY--;
             this.domElm.style.bottom = this.positionY + "vh";
+            //image rotation down
             let heroImage = document.querySelector('#board img');
             heroImage.style.transform = "rotate(90deg)"
         }

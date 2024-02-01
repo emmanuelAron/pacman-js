@@ -18,10 +18,13 @@ body {
 .centered{
     text-align: center;/* to center horizontally */
    position: absolute;
-    top:12%; /* to center vertically */
+    top:12%; /* to center vertically , relatively to the screen */
     border: 1px solid black;
    padding: 20px;
-   background-color:darkolivegreen;
+   /*background-color:darkolivegreen; */
+   background: linear-gradient(darkolivegreen, pink);
+   font-size: 25px;
+   font-family: cursive;
    
 }
 
