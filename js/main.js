@@ -180,16 +180,10 @@ class Monster {
 
 //The start of my program:
 const hero = new Hero('level1',50,10);
-//console.log('hero: ',hero)
 const monstersLvl1 = []; // will store instances of the class Monster for lvl1
 const monsters = []
 let pathIdInterval
-//const levels = ["level1","level2","level3","level4"]; // will store the levels of the game.
 const frequencyMonsterGeneration = 3000 //time in milliseconds 
-//let lev1 = true
-//let lev2 = false
-
-
 
 // add event listeners
 document.addEventListener("keydown", (e) => {
@@ -274,18 +268,29 @@ function level1() {
             //Detect if there's a collision between the current Monster and the Hero
             collisionMonsterHero(hero, monsterInstance)
             //Detect collision between the hero and the centered green div.
-            //if win() return true , i clearInterval....(TO DO)
             let isWin = win(hero, this.centeredDiv)
             if (isWin === true) {
                 console.log("Level 1 is won here")
+                //make the hidden level2 link appear
+                setVisibleLevel2()
                 clearInterval(intervalId_generate)
                 clearInterval(intervalId_move_detect)
             }
-
         });
     }, 2000);
 }
+function setVisibleLevel2(){
+    //make the div visible
+    let level2Div = document.getElementById('level2'); 
+    level2Div.style.display = 'block'; 
+    level2Div.style.alignContent = 'center';  
+    level2Div.style.visibility = 'visible';
 
+    //recenter the styles
+    level2Div.style.display = 'flex';
+    level2Div.style.justifyContent = 'center';
+    level2Div.style.alignItems = 'center';
+}
 
 // start by defining this moveDirection as right and then change it on every collision 
 //with the borders or with the maxTop parameter
@@ -320,19 +325,13 @@ function path(x_monster,moveDirection,maxTop){
     return monster
 }
 
-
-
 function level2() {
      //Set the html h1 title
      const level = document.getElementById('level')
      level.innerHTML = 'Level 2 : Four moving monsters , no walls'
  
-    // let monster1 = new Monster(1,65,this.positionY)
-    // let monster2 = new Monster(1,80,this.positionY)
-    // let monster3 = new Monster(1,65,this.positionY)
- 
-     let monster1 = path(80,'right',65);//x coordinate: 65 = 65% of the size screen
-     let monster2 = path(40,'down',80)//80 is the max top
+     let monster1 = path(80,'right',65);//x coordinate: 80 = 80% of the size screen
+     let monster2 = path(40,'down',80)//80 is the max top before changing direction
      let monster3 = path(20,'up',70)
      let monster4 = path(15,'right',40)
  
@@ -348,14 +347,13 @@ function level2() {
      if (isWin === true) {
         console.log("Level 2 is won here")
         clearInterval(intervalId_generate)
-       // clearInterval(intervalId_move_detect)
         clearInterval( pathIdInterval)
     }
      
 }
 //The call of my functions
 //level1()
-level2()
+level1()
 //nextLevel(hero)
 
 
