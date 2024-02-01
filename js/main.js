@@ -290,6 +290,10 @@ function setVisibleLevel2(){
     level2Div.style.display = 'flex';
     level2Div.style.justifyContent = 'center';
     level2Div.style.alignItems = 'center';
+
+    let link = document.querySelector('#level2 a');
+    link.style.textDecoration = 'none'; // Pour supprimer le soulignement
+    link.style.color = 'orange'; 
 }
 
 // start by defining this moveDirection as right and then change it on every collision 
