@@ -282,50 +282,69 @@ function level1() {
         });
     }, 2000);
 }
-function level2() {
-    //Set the html h1 title
-    const level = document.getElementById('level')
-    level.innerHTML = 'Level 2 : Three moving monsters , no walls'
 
-    let y_monster1 = 50;
-    let monster1 = new Monster(level2,50,y_monster1)
+// start by defining this moveDirection as right and then change it on every collision 
+//with the borders or with the maxTop parameter
+function path(x_monster,moveDirection,maxTop){
+     
+    let monster = new Monster(level2,x_monster,50)
     let speed = 200 //Speed in ms
-    setInterval(()=>{
-        monster1.moveDown()
-    }, speed);
-   
-    console.log(monster1) 
-    let monster2 = new Monster(level2,80,50)
-
-    let moveDirection = 'right';   // start by defining this moveDirection as right and then change it on every collision with the borders
-
+    
     setInterval(() => {
         if (moveDirection === 'right') {
-            monster2.moveRight();
-            if (monster2.positionX === 90) {
+            monster.moveRight();
+            if (monster.positionX === 90) {
                 moveDirection = 'down';
             }
         } else if (moveDirection === 'down') {
-            monster2.moveDown();
-            if (monster2.positionY === 0) {
+            monster.moveDown();
+            if (monster.positionY === 0) {
                 moveDirection = 'left';
             }
         } else if (moveDirection === 'left') {
-            monster2.moveLeft();
-            if (monster2.positionX === 0) {
+            monster.moveLeft();
+            if (monster.positionX === 0) {
                 moveDirection = 'up';
             }
         } else if (moveDirection === 'up') {
-            monster2.moveUp();
-            if (monster2.positionY === 50) {
+            monster.moveUp();
+            if (monster.positionY === maxTop) {
                 moveDirection = 'right';
             }
         }
     }, speed);
+    return monster
+}
+
+
+function level2() {
+     //Set the html h1 title
+     const level = document.getElementById('level')
+     level.innerHTML = 'Level 1 : Four moving monsters , no walls'
+ 
+    // let monster1 = new Monster(1,65,this.positionY)
+    // let monster2 = new Monster(1,80,this.positionY)
+    // let monster3 = new Monster(1,65,this.positionY)
+ 
+     let monster1 = path(80,'right',65);//x coordinate: 65 = 65% of the size screen
+     let monster2 = path(40,'down',80)//80 is the max top
+     let monster3 = path(20,'up',70)
+     let monster4 = path(15,'right',40)
+ 
+     monsters.push(monster1)
+     monsters.push(monster2)
+     monsters.push(monster3)
+     monsters.push(monster4)
+ 
+     console.log(monsters)
+ 
+     //The win condition
+     win(hero)
      
 }
 //The call of my functions
-level1()
+//level1()
+level2()
 //nextLevel(hero)
 
 
