@@ -39,6 +39,10 @@ body {
     background-color:rgb(137, 209, 235);
     border-radius:20%;
     position: absolute;
+    width: 30px;
+    height: 30px;
+    max-width:30px;
+    max-height: 30px;
 }
 
 #page-gameover {
