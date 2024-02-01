@@ -232,18 +232,24 @@ function win(hero){
    let condition3 = hero.positionY < y_goal_position + centeredDiv.height
    let condition4 = hero.positionY + hero.height > y_goal_position
 
-   console.log('hero.positionX',hero.positionX,'hero.positionY ',hero.positionY  )
-    // if(hero.positionX === (50-centeredDiv.width) && hero.positionY === (50-centeredDiv.height)){
-    //     console.log("Next level!"); 
-    //     hero.level = 'level2';
-    //     nextLevel(hero);
-    // }
 
-    if (condition1 && condition2 && condition3 && condition4) {
-        console.log("Next level!"); 
-        hero.level = 'level2';
-        nextLevel(hero);
+    if (hero.positionX < x_goal_position + centeredDiv.width && hero.positionX + hero.width > x_goal_position &&
+        hero.positionY < y_goal_position + centeredDiv.height && hero.positionY + hero.height > y_goal_position) {
+        //We want to pause the execution a few seconds , so the user has the time to 
+        //appreciate his victory!
+        setTimeout(function () {
+             console.log("You won!!!"); 
+             
+             console.log('lev1 after winning: ',lev1)
+             //location.href = "index.html";
+             //level2(hero)
+             hero.level = 'level2'//test...
+           //  location.href = "index2.html";
+            }, 10000)
+        return true;
     }
+   return false
+
 }
 
 function nextLevel(hero) {
@@ -254,11 +260,41 @@ function nextLevel(hero) {
             level1(hero);
             break;
         case 'level2':
-            console.log("stating level 2...");
-            level2(hero);
-            break;
-    }
+
+          level2(hero);
+          break;
+      }
 }
+
+function level1() {
+    const level = document.getElementById('level')
+    level.innerHTML = 'Level 1 : Monsters appearing randomly and regularly'
+
+    // generate monsters 
+    const intervalId_generate = setInterval(() => {
+        const newMonster = new Monster();
+        monsters.push(newMonster);
+    }, speedMonsterGeneration);
+
+    // move monsters & detect collision
+    const intervalId_move_detect = setInterval(() => {
+        monsters.forEach((monsterInstance) => {
+            monsterInstance.generateRandomSquare()
+            //Detect if there's a collision between the current Monster and the Hero
+            collisionMonsterHero(hero, monsterInstance)
+            //Detect collision between the hero and the centered green div.
+            //if win() return true , i clearInterval....(TO DO)
+            let isWin = win(hero, this.centeredDiv)
+            if (isWin === true) {
+                clearInterval(intervalId_generate)
+                clearInterval(intervalId_move_detect)
+            }
+
+        });
+    }, 2000);
+}
+
+
 // start by defining this moveDirection as right and then change it on every collision 
 //with the borders or with the maxTop parameter
 function path(x_monster,moveDirection,maxTop){
@@ -292,51 +328,38 @@ function path(x_monster,moveDirection,maxTop){
     return monster
 }
 
-function level1() {
-    //Set the html h1 title
-    const level = document.getElementById('level')
-    level.innerHTML = 'Level 1 : Four moving monsters , no walls'
 
-   // let monster1 = new Monster(1,65,this.positionY)
-   // let monster2 = new Monster(1,80,this.positionY)
-   // let monster3 = new Monster(1,65,this.positionY)
 
-    let monster1 = path(80,'right',65);//x coordinate: 65 = 65% of the size screen
-    let monster2 = path(40,'down',80)//80 is the max top
-    let monster3 = path(20,'up',70)
-    let monster4 = path(15,'right',40)
-
-    monstersLvl1.push(monster1)
-    monstersLvl1.push(monster2)
-    monstersLvl1.push(monster3)
-    monstersLvl1.push(monster4)
-
-    console.log(monstersLvl1)
-
-    //The win condition
-    win(hero)
-
+function level2() {
+     //Set the html h1 title
+     const level = document.getElementById('level')
+     level.innerHTML = 'Level 1 : Four moving monsters , no walls'
+ 
+    // let monster1 = new Monster(1,65,this.positionY)
+    // let monster2 = new Monster(1,80,this.positionY)
+    // let monster3 = new Monster(1,65,this.positionY)
+ 
+     let monster1 = path(80,'right',65);//x coordinate: 65 = 65% of the size screen
+     let monster2 = path(40,'down',80)//80 is the max top
+     let monster3 = path(20,'up',70)
+     let monster4 = path(15,'right',40)
+ 
+     monsters.push(monster1)
+     monsters.push(monster2)
+     monsters.push(monster3)
+     monsters.push(monster4)
+ 
+     console.log(monsters)
+ 
+     //The win condition
+     win(hero)
+     
 }
-
-function level2(hero) {
-
-    const level = document.getElementById('level')
-    level.innerHTML = 'Level 1 : Monsters appearing randomly and regularly'
-
-    // generate monsters 
-    setInterval(() => {
-        const newMonster = new Monster('level1', this.positionX, this.positionY);
-        monsters.push(newMonster);
-    }, frequencyMonsterGeneration);
-
-   //monster and hero detection...
-
-   //win
-
-}
-
-//nextLevel(hero); // Start the game
+//The call of my functions
+//level1()
 level2()
+//nextLevel(hero)
+
 
 
 
