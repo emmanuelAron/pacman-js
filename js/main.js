@@ -181,6 +181,7 @@ class Monster {
 const hero = new Hero('level1',50,0);
 //console.log('hero: ',hero)
 const monstersLvl1 = []; // will store instances of the class Monster for lvl1
+const monsters = []
 //const levels = ["level1","level2","level3","level4"]; // will store the levels of the game.
 const frequencyMonsterGeneration = 3000 //time in milliseconds 
 //let lev1 = true
@@ -274,7 +275,7 @@ function level1() {
     const intervalId_generate = setInterval(() => {
         const newMonster = new Monster();
         monsters.push(newMonster);
-    }, speedMonsterGeneration);
+    }, 3000);
 
     // move monsters & detect collision
     const intervalId_move_detect = setInterval(() => {
@@ -356,8 +357,8 @@ function level2() {
      
 }
 //The call of my functions
-//level1()
-level2()
+level1()
+//level2()
 //nextLevel(hero)
 
 
