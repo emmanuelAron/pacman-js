@@ -233,17 +233,15 @@ function win(hero){
         setTimeout(function () {
              console.log("You won!!!"); 
              
-              
-             lev1 = false;
              console.log('lev1 after winning: ',lev1)
              //location.href = "index.html";
              //level2(hero)
              hero.level = 'level2'//test...
-             location.href = "index.html";
-            }, 3000)
-        //level2()
+           //  location.href = "index2.html";
+            }, 10000)
+        return true;
     }
-   
+   return false
 }
 
 function nextLevel(hero){
@@ -262,24 +260,26 @@ function level1() {
     level.innerHTML = 'Level 1 : Monsters appearing randomly and regularly'
 
     // generate monsters 
-setInterval(() => {
-    const newMonster = new Monster();
-    monsters.push(newMonster);
-}, speedMonsterGeneration);
+    const intervalId_generate = setInterval(() => {
+        const newMonster = new Monster();
+        monsters.push(newMonster);
+    }, speedMonsterGeneration);
 
-    lev1 = true;
     // move monsters & detect collision
-    setInterval(() => {
+    const intervalId_move_detect = setInterval(() => {
         monsters.forEach((monsterInstance) => {
             monsterInstance.generateRandomSquare()
             //Detect if there's a collision between the current Monster and the Hero
             collisionMonsterHero(hero, monsterInstance)
             //Detect collision between the hero and the centered green div.
-            win(hero, this.centeredDiv)
-            
+            //if win() return true , i clearInterval....(TO DO)
+            let isWin = win(hero, this.centeredDiv)
+            if (isWin === true) {
+                clearInterval(intervalId_generate)
+            }
+
         });
     }, 2000);
-  //  return lev1;
 }
 function level2() {
     //Set the html h1 title
@@ -324,8 +324,8 @@ function level2() {
      
 }
 //The call of my functions
-//level2()
-nextLevel(hero)
+level1()
+//nextLevel(hero)
 
 
 
