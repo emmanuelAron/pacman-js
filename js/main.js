@@ -276,6 +276,7 @@ function level1() {
             let isWin = win(hero, this.centeredDiv)
             if (isWin === true) {
                 clearInterval(intervalId_generate)
+                clearInterval(intervalId_move_detect)
             }
 
         });
