@@ -178,7 +178,7 @@ class Monster {
 }
 
 //The start of my program:
-const hero = new Hero('level1',50,0);
+const hero = new Hero('level1',50,10);
 //console.log('hero: ',hero)
 const monstersLvl1 = []; // will store instances of the class Monster for lvl1
 const monsters = []
@@ -222,46 +222,34 @@ function collisionMonsterHero(hero , monsterInstance){
 }
 
 //The win function detects a collision between the hero and the centered green div.
-function win(hero){
-    //console.log('inside the win function...')
+function win(hero) {
     let centeredDiv = hero.centeredDiv //html element
     let x_goal_position = centeredDiv.left;
     let y_goal_position = centeredDiv.bottom;
-   
-   let condition1 = hero.positionX < x_goal_position + centeredDiv.width
-   let condition2 = hero.positionX + hero.width > x_goal_position
-   let condition3 = hero.positionY < y_goal_position + centeredDiv.height
-   let condition4 = hero.positionY + hero.height > y_goal_position
 
+    let condition1 = hero.positionX < x_goal_position + centeredDiv.width
+    let condition2 = hero.positionX + hero.width > x_goal_position
+    let condition3 = hero.positionY < y_goal_position + centeredDiv.height
+    let condition4 = hero.positionY + hero.height > y_goal_position
 
     if (hero.positionX < x_goal_position + centeredDiv.width && hero.positionX + hero.width > x_goal_position &&
         hero.positionY < y_goal_position + centeredDiv.height && hero.positionY + hero.height > y_goal_position) {
-        //We want to pause the execution a few seconds , so the user has the time to 
-        //appreciate his victory!
-        setTimeout(function () {
-             console.log("You won!!!"); 
-             
-             console.log('lev1 after winning: ',lev1)
-             //location.href = "index.html";
-             //level2(hero)
-             hero.level = 'level2'//test...
-           //  location.href = "index2.html";
-            }, 10000)
+        console.log("You won!");
+        hero.level = 'level2'
         return true;
     }
-   return false
-
+    return false
 }
 
 function nextLevel(hero) {
     console.log('hero.level just before the switch: ', hero.level)
     switch (hero.level) {
         case 'level1':
-            console.log("stating level 1...");
+            console.log("starting level 1...");
             level1(hero);
             break;
         case 'level2':
-
+            console.log("starting level 2...");
           level2(hero);
           break;
       }
@@ -287,6 +275,7 @@ function level1() {
             //if win() return true , i clearInterval....(TO DO)
             let isWin = win(hero, this.centeredDiv)
             if (isWin === true) {
+                console.log("Level 1 is won here")
                 clearInterval(intervalId_generate)
                 clearInterval(intervalId_move_detect)
             }

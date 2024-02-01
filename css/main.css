@@ -53,10 +53,20 @@ body {
 }
 #level{
     background-color: darksalmon;
-    text-align: center;
+   /* text-align: center; */
+    height: 40px;
+    display: flex;
+	flex-direction: row;
+	align-items: center;/* vertically center the items */
+    justify-content: center;/* horizontally center the items */
 }
 #level2{
     background-color: cadetblue;
-    text-align: center;
+   /* text-align: center; */
+    height: 40px;
+    display: flex;
+	flex-direction: row;
+    align-items: center;/* vertically center the items */
+    justify-content: center;/* horizontally center the items */
 }
 
