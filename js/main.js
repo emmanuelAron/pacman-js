@@ -259,7 +259,7 @@ function nextLevel(hero) {
 function level2() {
    // return new Promise((resolve, reject) => {
     const level = document.getElementById('level')
-    level.innerHTML = 'Level 2 : Monsters appearing randomly and regularly'
+    level.innerHTML = 'Level 1 : Monsters appearing randomly and regularly'
 
     // generate monsters 
     const intervalId_generate = setInterval(() => {
