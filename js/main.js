@@ -378,8 +378,8 @@ function level1() {
     }, 1000)
 }
 //The call of my functions
-//level1()
-level2()
+level1()
+//level2()
 
 //nextLevel(hero)
 
