@@ -227,7 +227,8 @@ function collisionMonsterHero(hero,monsterInstance){//added hero now...
 
 //The win function detects a collision between the hero and the centered green div.
 function win(hero) {
-    console.log(hero)
+    console.log('hero.positionX ',hero.positionX)
+    console.log('hero.centerdDivX ',hero.centerdDivX)
     
     if (
         hero.positionX < hero.centerdDivX + hero.centerdDivWidth && 
@@ -238,6 +239,7 @@ function win(hero) {
        // hero.level = 'level2'
         return true;
     }
+    return false
 }
 
 function nextLevel(hero) {
@@ -288,6 +290,7 @@ function level2() {
 function setVisibleLevel2(){
     //make the div visible
     let level2Div = document.getElementById('level2'); 
+    console.log('setVisibleLevel2 level2Div ',level2Div)
     level2Div.style.display = 'block';  
     level2Div.style.alignContent = 'center';  
     level2Div.style.visibility = 'visible';
@@ -366,17 +369,17 @@ function level1() {
 
     //The win condition
     let isWin = win(hero)
+    console.log('win condition ',isWin)
     if (isWin === true) {
+        setVisibleLevel2()
         console.log("Level 2 is won here")
         clearInterval(intervalId_generate)
         clearInterval(pathIdInterval)
-        setVisibleLevel2()
-        
     }
 }
 //The call of my functions
-//level1()
 level1()
+level2()
 
 //nextLevel(hero)
 

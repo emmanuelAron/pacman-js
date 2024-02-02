@@ -64,7 +64,7 @@ body {
 	flex-direction: row;
     align-items: center;/* vertically center the items */
     justify-content: center;/* horizontally center the items */
-    display: none;/* We want to initially hide the level 2 div  */
-    visibility: hidden;
+    display: none;   /* We want to initially hide the level 2 div  */
+   /* visibility: hidden; */
 }
 
