@@ -57,7 +57,7 @@ body {
 	align-items: center;/* vertically center the items */
     justify-content: center;/* horizontally center the items */
 }
-#level2{
+#level2,#level3{
     background-color: cadetblue;
     height: 40px;
     display: flex;

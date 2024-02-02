@@ -14,7 +14,6 @@ class Hero {
         this.centerdDivHeight = 10
 
         this.createCenteredDiv();
-
         this.createDomElement();
     }
 
@@ -27,11 +26,6 @@ class Hero {
         this.centeredDiv.style.height = "10vh"
         this.centeredDiv.style.left = "4vw"
         this.centeredDiv.style.bottom =  "4vh"
-        
-        // this.centeredDiv.width = this.width
-        // this.centeredDiv.height = this.height
-        // this.centeredDiv.left = 50
-        // this.centeredDiv.bottom = 50
         
         //We add the newly created div element to board id.
         const board = document.getElementById('board')
@@ -218,37 +212,25 @@ document.addEventListener("keydown", (e) => {
 /***************************************************************************************
  *  Function declarations
  ***************************************************************************************/
-function collisionMonsterHero(monsterInstance){
-    let condition1 = hero.positionX < monsterInstance.positionX + monsterInstance.width
-    let condition2 = hero.positionX + hero.width > monsterInstance.positionX
-    let condition3 = hero.positionY < monsterInstance.positionY + monsterInstance.height
-    let condition4 = hero.positionY + hero.height > monsterInstance.positionY
-
-    //let cond1Left = monsterInstance.positionX + monsterInstance.width
-
-    //console.log('cond1 ',condition1, ' cond2 ',condition2,' cond3 ',condition3,' cond4 ',condition4)
-
-    // 2. detect if there's a collision between the current Monster and the Hero
-    if (condition1 && condition2 && condition3 && condition4) {
-        console.log("game over");
-        // location.href = "gameover.html";
-    }
+function collisionMonsterHero(hero,monsterInstance){//added hero now...
+    if( 
+        hero.positionX < monsterInstance.positionX + monsterInstance.width &&  //smaller than monster vertical right side
+        hero.positionX + hero.width > monsterInstance.positionX && //bigger than monster vertical left side
+        hero.positionY < monsterInstance.positionY + monsterInstance.height &&//smaller than monster top side
+        hero.positionY + hero.height > monsterInstance.positionY  //bigger than monster bottom side
+        ){
+            console.log("game over")
+            console.log(monsterInstance.positionX)
+            location.href = "gameover.html"
+        }
 }
 
 //The win function detects a collision between the hero and the centered green div.
 function win(hero) {
-    console.log("calling win function")
     console.log(hero)
-    // let centeredDiv = hero.centeredDiv //html element
-    // let x_goal_position = centeredDiv.left;
-    // let y_goal_position = centeredDiv.bottom;
-
-    // let condition1 = hero.positionX < x_goal_position + centeredDiv.width
-    // let condition2 = hero.positionX + hero.width > x_goal_position
-    // let condition3 = hero.positionY < y_goal_position + centeredDiv.height
-    // let condition4 = hero.positionY + hero.height > y_goal_position
-
-    if (hero.positionX < hero.centerdDivX + hero.centerdDivWidth && 
+    
+    if (
+        hero.positionX < hero.centerdDivX + hero.centerdDivWidth && 
         hero.positionX + hero.width > hero.centerdDivX &&
         hero.positionY < hero.centerdDivY + hero.centerdDivHeight && 
         hero.positionY + hero.height > hero.centerdDivY) {
@@ -272,10 +254,10 @@ function nextLevel(hero) {
       }
 }
 
-function level1() {
+function level2() {
    // return new Promise((resolve, reject) => {
     const level = document.getElementById('level')
-    level.innerHTML = 'Level 1 : Monsters appearing randomly and regularly'
+    level.innerHTML = 'Level 2 : Monsters appearing randomly and regularly'
 
     // generate monsters 
     const intervalId_generate = setInterval(() => {
@@ -306,7 +288,7 @@ function level1() {
 function setVisibleLevel2(){
     //make the div visible
     let level2Div = document.getElementById('level2'); 
-    level2Div.style.display = 'block'; 
+    level2Div.style.display = 'block';  
     level2Div.style.alignContent = 'center';  
     level2Div.style.visibility = 'visible';
 
@@ -316,7 +298,7 @@ function setVisibleLevel2(){
     level2Div.style.alignItems = 'center';
 
     let link = document.querySelector('#level2 a');
-    link.style.textDecoration = 'none'; // Pour supprimer le soulignement
+    link.style.textDecoration = 'none'; // Remove the link style
     link.style.color = 'orange'; 
 }
 
@@ -353,36 +335,44 @@ function path(x_monster,moveDirection,maxTop){
     return monster
 }
 
-function level2() {
-
+function level1() {
     //Make sure that all the precedents listeners are stopped before starting the level2 execution.
     //clearInterval(intervalId_generate)
     //clearInterval(intervalId_move_detect) 
 
-     //Set the html h1 title
-     const level = document.getElementById('level')
-     level.innerHTML = 'Level 2 : Four moving monsters , no walls'
- 
-     let monster1 = path(80,'right',65);//x coordinate: 80 = 80% of the size screen
-     let monster2 = path(40,'down',80)//80 is the max top before changing direction
-     let monster3 = path(20,'up',70)
-     let monster4 = path(15,'right',40)
- 
-     monsters.push(monster1)
-     monsters.push(monster2)
-     monsters.push(monster3)
-     monsters.push(monster4)
- 
-     console.log('My monsters in level 2 ',monsters)
- 
-     //The win condition
-     let isWin = win(hero)
-     if (isWin === true) {
+    //Set the html h1 title
+    const level = document.getElementById('level')
+    level.innerHTML = 'Level 1 : Four moving monsters , no walls'
+
+    let monster1 = path(80, 'right', 65);//x coordinate: 80 = 80% of the size screen
+    //console.log('monster1.positionX ligne 359: ',monster1.positionX ,'hero.positionX:',hero.positionX )
+    let monster2 = path(40, 'down', 80)//80 is the max top before changing direction
+    let monster3 = path(20, 'up', 70)
+    let monster4 = path(15, 'right', 40)
+
+    monsters.push(monster1)
+    monsters.push(monster2)
+    monsters.push(monster3)
+    monsters.push(monster4)
+
+   // Every six seconds i am testing if there is a collision between my hero and any of the 4 monsters.
+   // If there is a collision, i loose the game.
+    setInterval(() => {
+        collisionMonsterHero(hero, monster1)
+        collisionMonsterHero(hero, monster2)
+        collisionMonsterHero(hero, monster3)
+        collisionMonsterHero(hero, monster4)
+    }, 1000)
+
+    //The win condition
+    let isWin = win(hero)
+    if (isWin === true) {
         console.log("Level 2 is won here")
         clearInterval(intervalId_generate)
-        clearInterval( pathIdInterval)
+        clearInterval(pathIdInterval)
+        setVisibleLevel2()
+        
     }
-     
 }
 //The call of my functions
 //level1()
