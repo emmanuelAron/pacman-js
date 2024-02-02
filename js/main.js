@@ -379,7 +379,7 @@ function level1() {
 }
 //The call of my functions
 level1()
-//level2()
+level2()
 
 //nextLevel(hero)
 
