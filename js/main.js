@@ -348,7 +348,6 @@ function level1() {
     level.innerHTML = 'Level 1 : Four moving monsters , no walls'
 
     let monster1 = path(80, 'right', 65);//x coordinate: 80 = 80% of the size screen
-    //console.log('monster1.positionX ligne 359: ',monster1.positionX ,'hero.positionX:',hero.positionX )
     let monster2 = path(40, 'down', 80)//80 is the max top before changing direction
     let monster3 = path(20, 'up', 70)
     let monster4 = path(15, 'right', 40)
@@ -358,27 +357,28 @@ function level1() {
     monsters.push(monster3)
     monsters.push(monster4)
 
-   // Every six seconds i am testing if there is a collision between my hero and any of the 4 monsters.
-   // If there is a collision, i loose the game.
+    // Every six seconds i am testing if there is a collision between my hero and any of the 4 monsters.
+    // If there is a collision, i loose the game.
     setInterval(() => {
         collisionMonsterHero(hero, monster1)
         collisionMonsterHero(hero, monster2)
         collisionMonsterHero(hero, monster3)
         collisionMonsterHero(hero, monster4)
+        //   }, 1000)
+        console.log('before win cond. hero.posX: ', hero.positionX, ' centerX: ', hero.centerdDivX)
+        //The win condition
+        let isWin = win(hero)
+        console.log('win condition ', isWin)
+        if (isWin === true) {
+            setVisibleLevel2()
+            console.log("Level 2 is won here")
+            clearInterval(intervalId_generate)
+            clearInterval(pathIdInterval)
+        }
     }, 1000)
-
-    //The win condition
-    let isWin = win(hero)
-    console.log('win condition ',isWin)
-    if (isWin === true) {
-        setVisibleLevel2()
-        console.log("Level 2 is won here")
-        clearInterval(intervalId_generate)
-        clearInterval(pathIdInterval)
-    }
 }
 //The call of my functions
-level1()
+//level1()
 level2()
 
 //nextLevel(hero)
