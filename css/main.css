@@ -4,7 +4,10 @@ body {
 }
 
 #board {
-    background-image: url("../images/fond-mur.jpg");
+   /* background-image: url("../images/fond-mur.jpg"); */
+   /* background-image: url("../images/pacman_backgroung.webp"); */
+    background-image:url('https://images.unsplash.com/photo-1583916197120-4a6c3ab27a6f?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+    mix-blend-mode: overlay;
     height: 100vh;
     position: relative;
     overflow: hidden;
@@ -27,22 +30,22 @@ body {
      background-color:rgb(137, 209, 235);
      border-radius: 100%;
     position: absolute;
-    border: 1px solid black; 
-    width: 30px;
-    height: 30px;
-    max-width:30px;
-    max-height: 30px;
+   
+    width: 2vw;
+    height: 4.1vh;
+    max-width:2vw;
+    max-height: 4.1vh;
 }
 
 .Monster {
-    border: 1px solid black;
+    
     background-color:rgb(137, 209, 235);
     border-radius:20%;
     position: absolute;
-    width: 30px;
-    height: 30px;
-    max-width:30px;
-    max-height: 30px;
+    width: 2vw;
+    height: 4.1vh;
+    max-width:2vw;
+    max-height: 4.1vh;
 }
 
 #page-gameover {
@@ -51,7 +54,8 @@ body {
 }
 #level{
     background-color: darksalmon;
-    height: 40px;
+    height: 9.6vh;
+    font-weight:700;
     display: flex;
 	flex-direction: row;
 	align-items: center;/* vertically center the items */
@@ -59,7 +63,8 @@ body {
 }
 #level2,#level3{
     background-color: cadetblue;
-    height: 40px;
+    height: 9.6vh;
+    font-weight:700;
     display: flex;
 	flex-direction: row;
     align-items: center;/* vertically center the items */
